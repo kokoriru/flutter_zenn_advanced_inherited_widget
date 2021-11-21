@@ -15,6 +15,6 @@ class MyInheritedWidget extends InheritedWidget {
   // 更新されたかどうかの判定ロジック
   @override
   bool updateShouldNotify(MyInheritedWidget oldWidget) {
-    return oldWidget.count != count;
+    return (oldWidget.count != count && count % 2 == 0);
   }
 }
