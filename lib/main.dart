@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'MyInheritedWidget.dart';
 import 'Widgets.dart';
@@ -52,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       // 静的に作ったCenterより下のツリーを配置する
-      body: MyInheritedWidget(count: _counter, child: _widget),
+      body: Provider<int>.value(value: _counter, child: _widget),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

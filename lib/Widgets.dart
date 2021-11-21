@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'MyInheritedWidget.dart';
+import 'package:provider/provider.dart';
 
 class WidgetA extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MyInheritedWidget _myInheritedWidget = MyInheritedWidget.of(context);
-    int count = _myInheritedWidget.count;
-    return Text(count.toString());
+    int count;
+    try {
+      count = Provider.of<int>(context);
+    } catch (e) {
+      count = 0;
+    }
+    return Text("$count", style: TextStyle(fontSize: 100));
   }
 }
