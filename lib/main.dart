@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'MyData.dart';
+import 'Slider.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -30,36 +33,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-    print("count:" + _counter.toString());
-  }
-
-  final Widget _widget = Center(
-    child: Consumer<int>(
-      builder: (context, value, _) => Text(
-        value.toString(),
-        style: TextStyle(fontSize: 100),
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      // 静的に作ったCenterより下のツリーを配置する
-      body: Provider<int>.value(value: _counter, child: _widget),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => MyData(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Consumer<MyData>(
+              builder: (context, mydata, _) => Text(
+                mydata.value.toStringAsFixed(2),
+                style: TextStyle(fontSize: 100),
+              ),
+            ),
+            MySlider(),
+          ],
+        ),
       ),
     );
   }
