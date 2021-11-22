@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod/riverpod.dart';
 
 import 'MyData.dart';
@@ -48,27 +50,29 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // 3. ConsumerWidget を使い、watch を使えるようにする
-          Consumer(builder: (context, watch, child) {
-            return Text(
-              // 4. watch 関数にプロバイダーを渡し、state を取り出す
-              "${watch(_mydataProvider).toStringAsFixed(2)}",
-              style: TextStyle(fontSize: 100),
-            );
-          }),
-          Consumer(builder: (context, watch, child) {
-            return Slider(
-              value: watch(_mydataProvider),
-              // 5. context.read にプロバイダーの notifier を与えて、メソッドを呼び出す
-              onChanged: (value) =>
-                context.read(_mydataProvider.notifier).changeState(value)
-            );
-          }),
-        ],
-      ),
+      body: MyContents(),
+    );
+  }
+}
+
+class MyContents extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    final _value = useProvider(_mydataProvider);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          '${_value.toStringAsFixed(2)}',
+          style: TextStyle(fontSize: 100),
+        ),
+        Slider(
+          value: _value,
+          onChanged: (value) =>
+            context.read(_mydataProvider.notifier).changeState(value)
+        )
+      ],
     );
   }
 }
