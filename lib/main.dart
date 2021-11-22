@@ -46,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Consumer<MyData>(
               builder: (context, mydata, _) => Text(
-                mydata.value.toStringAsFixed(2),
+                context.select(
+                  (MyData mydata) => mydata.value.toStringAsFixed(2)
+                ),
                 style: TextStyle(fontSize: 100),
               ),
             ),
