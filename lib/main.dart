@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'MyInheritedWidget.dart';
-import 'Widgets.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -42,9 +39,14 @@ class _MyHomePageState extends State<MyHomePage> {
     print("count:" + _counter.toString());
   }
 
-  // Scaffold の下の Center 部分を先に静的に作っておき、作り返さないように制御
-  // 深い階層の伝播は証明できたためにシンプルに Center->WidgetA に変更
-  final Widget _widget = Center(child: WidgetA());
+  final Widget _widget = Center(
+    child: Consumer<int>(
+      builder: (context, value, _) => Text(
+        value.toString(),
+        style: TextStyle(fontSize: 100),
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
